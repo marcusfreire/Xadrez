@@ -84,7 +84,7 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
         peca.setLocation(new Point(x,y));
         peca.addObserver(this);
         peca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
                 peca.ActionPerformed(evt);
             }
         });
