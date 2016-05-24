@@ -13,9 +13,9 @@ import xadrezfinal.FramePrincipal;
  */
 public class FabricaTabuleiro {
     
-    public Jpanel CriarTabuleiro(FramePrincipal fp) {
+    public TabuleiroAbstrato CriarTabuleiro(FramePrincipal fp) {
            
-            Jpanel tabuleiro = new TabuleiroXadrez(fp);
+            TabuleiroAbstrato tabuleiro = new TabuleiroXadrez(fp);
             return tabuleiro;
 	}
     

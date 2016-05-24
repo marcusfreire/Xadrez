@@ -6,8 +6,9 @@
 package xadrezfinal;
 
 public class XadrezFinal {
-    public static void main(String[] args) {    
-          FramePrincipal xadrez;
-          xadrez = Xadrez.getInstance();   
+    
+    public static void main(String[] args) {
+        Xadrez frame;
+        frame = Xadrez.getInstance();   
     }
 }

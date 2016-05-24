@@ -18,6 +18,7 @@ public class Peao extends PecaXadrez {
         }        
         this.setBackground(new Color(255,255,255));
         this.setSize(50, 50);
+        this.setMovimento("Peao");
         //movimento = new MovimentoPeao();
     }
    
@@ -28,5 +29,6 @@ public class Peao extends PecaXadrez {
     public void setMexeu(boolean mexeu) {
         this.mexeu = mexeu;
     }
+    
 
 }

@@ -1,13 +1,17 @@
 package xadrezfinal;
 
+import Tabuleiro.TabuleiroXadrez;
+import java.awt.Point;
+import static xadrezfinal.FramePrincipal.setJogadorDaVez;
+
 public class Xadrez extends GameAbstrato {
     
    
     private static Xadrez instancia;
-    FramePrincipal fp;
+    
 	private Xadrez() {
-            fp=getGameInstance("Xadrez");
-            play(fp);
+            frame=getGameInstance("Xadrez");
+            play(frame);
 	}
 
 	public static synchronized Xadrez getInstance() {
@@ -15,5 +19,5 @@ public class Xadrez extends GameAbstrato {
                     instancia = new Xadrez();                    
                 }
 		return instancia;
-        }   
+        }
 }

@@ -8,6 +8,7 @@ package xadrezfinal;
 
 import Tabuleiro.FabricaTabuleiro;
 import Tabuleiro.Jpanel;
+import Tabuleiro.TabuleiroXadrez;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ import modelo.jogadores.*;
 public class FramePrincipal extends javax.swing.JFrame {
 
     
-    private Jpanel tabuleiro;
+    protected TabuleiroXadrez tabuleiro;
     private EntradaJogo entrada;
-    private static int jogadorDaVez;
-    private ArrayList<Jogador> jogadores=new ArrayList<Jogador>();
-    private Jogada jogada;
+    protected static int jogadorDaVez;
+    protected ArrayList<Jogador> jogadores=new ArrayList<>();
+    protected Jogada jogada;
     
     /** Creates new form framePrincipal */
     public FramePrincipal() {
@@ -33,7 +34,9 @@ public class FramePrincipal extends javax.swing.JFrame {
         this.jogada=new Jogada();
         adicionaPanelEntrada();
         this.JMenuJogo.setEnabled(false);
-        
+        //this.tabuleiro = tab;
+        //this.jogada=jog;
+        //this.jogadores=jogador;
     }
 
     /** This method is called from within the constructor to
@@ -138,7 +141,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void JMenuXadrezBasicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMenuXadrezBasicoActionPerformed
-    this.tabuleiro=new Jpanel(this);
+    this.tabuleiro=new TabuleiroXadrez(this);
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

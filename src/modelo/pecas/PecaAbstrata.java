@@ -1,9 +1,11 @@
 package modelo.pecas;
 
 import Tabuleiro.Observer;
+import Tabuleiro.TabuleiroAbstrato;
+import Tabuleiro.TabuleiroXadrez;
+
 import java.util.HashSet;
 import javax.swing.JButton;
-import modelo.movimentos.MovimentoEstrategicoXadrez;
 import modelo.movimentos.*;
 
 public abstract class PecaAbstrata extends JButton implements Observed {
@@ -11,38 +13,12 @@ public abstract class PecaAbstrata extends JButton implements Observed {
     protected PecaXadrez peca;
     protected String cor="b";
     protected MovimentoEstrategicoXadrez movimento;
+    TabuleiroXadrez tab;
     
     //.getClass().contains();
-    public void setMovimento(String type) {
-        System.out.println("Esta add movimento: "+type);
-            switch (type) {
-                case "Peao":
-                    movimento = new MovimentoPeao();
-                    break;
-                case "Bispo":
-                    movimento = new MovimentoBispo();
-                    break;
-                case "Rei":
-                    movimento = new MovimentoRei();
-                    break;
-                case "Rainha":
-                    movimento = new MovimentoRainha();
-                    break;
-                case "Cavalo":
-                    movimento = new MovimentoCavalo();
-                    break;
-                case "Torre":
-                    movimento = new MovimentoTorre();
-                    break;
-                case "PecaVazia":
-                    movimento = new MovimentoPecaVazia();
-                    break;
-            }
-    }
-    int i;
-    public void getMovimento() {
-        movimento.verificaTrajetoria(peca, i);
-    }
+    public abstract void setMovimento(String type);
+    
+    public abstract void getMovimento(PecaAbstrata peca,TabuleiroAbstrato tab);
     
     public String getCor() {
         return cor;
