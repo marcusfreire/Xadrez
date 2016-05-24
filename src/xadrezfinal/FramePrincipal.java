@@ -27,6 +27,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     protected static int jogadorDaVez;
     protected ArrayList<Jogador> jogadores=new ArrayList<>();
     protected Jogada jogada;
+    private boolean estrategico=false;
     
     /** Creates new form framePrincipal */
     public FramePrincipal() {
@@ -172,7 +173,29 @@ private void JMenuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 }//GEN-LAST:event_JMenuSairActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        estrategico=true;
+        this.tabuleiro=new TabuleiroXadrez(this);
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(this.tabuleiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(this.tabuleiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(100, Short.MAX_VALUE))
+        );
+
+    pack();
+        this.lblJjogador.setVisible(true);
+        this.lblJjogador.setLocation(new Point(0,410));
+        this.lblJjogador.setText(this.lblJjogador.getText()+" "+this.getJogadores().get(0).getNome());
+        setJogadorDaVez(0);
+        this.getJogada().setJogador(getJogadores().get(0));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
 private void adicionaPanelEntrada(){
@@ -255,5 +278,12 @@ public Jogador getJogador(int indice){
         }
         
     }
+    
+    public void setEstrategico (boolean valor){
+        this.estrategico=valor;
+        }
+    public boolean getEstrategico (){    
+      return estrategico;
+        }
 
 }

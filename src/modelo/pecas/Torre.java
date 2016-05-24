@@ -18,6 +18,7 @@ public class Torre extends PecaXadrez {
         this.setBackground(new Color(255,255,255));
         this.setSize(50, 50);
         this.setMovimento("Torre");
+        this.setTipo("Torre");
   //      movimento = new RookMovementStrategy();
     }
 

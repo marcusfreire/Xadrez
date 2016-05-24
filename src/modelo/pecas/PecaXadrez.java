@@ -1,6 +1,7 @@
 
 package modelo.pecas;
 
+import Tabuleiro.Observer;
 import Tabuleiro.TabuleiroAbstrato;
 import Tabuleiro.TabuleiroXadrez;
 import javax.swing.JButton;
@@ -13,7 +14,6 @@ import modelo.movimentos.*;
 public class PecaXadrez extends PecaAbstrata{
     
     public void setMovimento(String type) {
-        System.out.println("Testando "+type);
             switch (type) {
                 case "Peao":
                     movimento = new MovimentoPeao();
@@ -41,6 +41,6 @@ public class PecaXadrez extends PecaAbstrata{
     
     public void getMovimento(PecaAbstrata peca,TabuleiroAbstrato tab) {
         movimento.verificaTrajetoria(peca, (TabuleiroXadrez) tab);
-    }    
-    
+    }
+         
 }

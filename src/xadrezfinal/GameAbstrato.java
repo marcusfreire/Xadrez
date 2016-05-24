@@ -25,10 +25,18 @@ public class GameAbstrato extends FramePrincipal implements IGame {
     protected FramePrincipal frame;
     FramePrincipal fp;
     EstadoGame estadocronometro;
+    protected boolean estrategico=false;
     
     public GameAbstrato(){
         super();
     }
+    
+    public void setEstrategico (boolean valor){
+        this.estrategico=valor;
+        }
+    public boolean getAtributo (){    
+      return estrategico;
+        }
     
     @Override
     public FramePrincipal getGameInstance(String game) {

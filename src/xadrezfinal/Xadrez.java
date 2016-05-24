@@ -6,7 +6,7 @@ import static xadrezfinal.FramePrincipal.setJogadorDaVez;
 
 public class Xadrez extends GameAbstrato {
     
-   
+    
     private static Xadrez instancia;
     
 	private Xadrez() {

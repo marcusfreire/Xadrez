@@ -19,6 +19,7 @@ public class Cavalo extends PecaXadrez {
         this.setBackground(new Color(255,255,255));
         this.setSize(50, 50);
         this.setMovimento("Cavalo");
+        this.setTipo("Cavalo");
         //movimento = new MovimentoCavalo();
     }
 

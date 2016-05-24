@@ -1,7 +1,7 @@
 package Tabuleiro;
 
-import modelo.pecas.PecaAbstrata;
+import modelo.pecas.PecaXadrez;
 
 public interface Observer {
-    public void update(PecaAbstrata peca);
+    public void update(PecaXadrez peca);
 }

@@ -8,9 +8,11 @@ package Tabuleiro;
 import java.awt.Color;
 import modelo.pecas.Bispo;
 import modelo.pecas.Cavalo;
+import modelo.pecas.Observed;
 import modelo.pecas.Peao;
 import modelo.pecas.PecaAbstrata;
 import modelo.pecas.PecaVazia;
+import modelo.pecas.PecaXadrez;
 import modelo.pecas.Rainha;
 import modelo.pecas.Rei;
 import modelo.pecas.Torre;
@@ -22,8 +24,10 @@ import xadrezfinal.FramePrincipal;
  */
 public class TabuleiroXadrez extends TabuleiroAbstrato{
    
-    public TabuleiroXadrez(FramePrincipal fp) {
+    
+   public TabuleiroXadrez(FramePrincipal fp) {
         super(fp);
+        
     }
     
     public void construirTabuleiro(){
@@ -64,7 +68,7 @@ public class TabuleiroXadrez extends TabuleiroAbstrato{
         }
     }
     
-    @Override
+    
     public void verificaTrajetoria(PecaAbstrata peca) {
         peca.getMovimento(peca,this);
     
@@ -88,10 +92,8 @@ public class TabuleiroXadrez extends TabuleiroAbstrato{
         }
         return flag;
     }
-    @Override
-    public void update(PecaAbstrata peca) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
+   
 
- 
+     
 }

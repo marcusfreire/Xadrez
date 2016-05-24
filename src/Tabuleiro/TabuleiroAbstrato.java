@@ -8,11 +8,14 @@ package Tabuleiro;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import modelo.pecas.Bispo;
 import modelo.pecas.Cavalo;
+import modelo.pecas.Observed;
 import modelo.pecas.Peao;
 import modelo.pecas.PecaAbstrata;
 import modelo.pecas.PecaVazia;
+import modelo.pecas.PecaXadrez;
 import modelo.pecas.Rainha;
 import modelo.pecas.Rei;
 import modelo.pecas.Torre;
@@ -31,6 +34,7 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
     protected int x;
     protected int y;
     protected TabuleiroXadrez tab;
+    //private Observed observer;
     
     
     public TabuleiroAbstrato(FramePrincipal fp) {
@@ -42,6 +46,7 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
         pecas=new ArrayList<PecaAbstrata>();
         this.construirTabuleiro();
         this.fp=fp;
+        
     }        
      
     public abstract void construirTabuleiro();
@@ -75,12 +80,12 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
     }
     
     
-    public void adicionarAoTabuleiro(PecaAbstrata peca){
+    public void adicionarAoTabuleiro(final PecaAbstrata peca){
         peca.setLocation(new Point(x,y));
-        //adicionaMovimento(peca);
+        peca.addObserver(this);
         peca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActionPerformed(evt);
+                peca.ActionPerformed(evt);
             }
         });
         
@@ -96,29 +101,8 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
         contador++;
     }
     
-    private void adicionaMovimento(PecaAbstrata peca){
-        String tipo = peca.getClass().toString();
-        if (tipo.contains("Peao")){
-            peca.setMovimento("Peao");
-        }else if (tipo.contains("Torre")){
-            peca.setMovimento("Torre");
-        }else if (tipo.contains("Cavalo")){
-            peca.setMovimento("Cavalo");
-        }else if (tipo.contains("Bispo")){
-            peca.setMovimento("Bispo");
-        }else if (tipo.contains("Rei")){
-            peca.setMovimento("Rei");
-        }else if (tipo.contains("Rainha")){
-            peca.setMovimento("Rainha");
-        }
-        else if (tipo.contains("PecaVazia")){
-            peca.setMovimento("PecaVazia");
-        }
-    }
-   
-    public void ActionPerformed(java.awt.event.ActionEvent evt) {
-        PecaAbstrata pecaClicada;
-        pecaClicada = (PecaAbstrata)evt.getSource();
+    
+    public void update(PecaXadrez pecaClicada) {
         String cor = pecaClicada.getCor();
         //System.out.println("Clicou "+pecaClicada.getClass()+" cor: "+cor+" Cor do Jogador: "+fp.getJogadores().get(fp.getJogadorDaVez()).getPeca());
         //System.out.println("Cor da peça: "+pecaClicada.getCor().contains("Branco"));
@@ -134,8 +118,9 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
                 fp.terminarJogo();
             }
         }
-        
     }
+     
+   
     
     public void movePeca(PecaAbstrata posicao){
         String cor = posicao.getCor();
@@ -145,7 +130,7 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
             //adicionaMovimento(vazio);
             vazio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActionPerformed(evt);
+                peca.ActionPerformed(evt);
                 }
             });
             
@@ -159,7 +144,15 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
             
             int i=this.pecas.indexOf(posicao);
             int j=this.pecas.indexOf(this.peca);
-            
+            //System.out.println("Esta peça"+this.pecas.get(j).getTipo());
+            //System.out.println("Matou "+this.pecas.get(i).getTipo()+" "+this.pecas.get(i).getCor());
+            if (fp.getEstrategico()){
+                if (!(this.pecas.get(i).getTipo().equals("PecaVazia"))){
+                this.pecas.get(j).setMovimento(this.pecas.get(i).getTipo());
+                this.pecas.get(j).setMexeu(true);
+                
+                }
+            }
             this.pecas.remove(i);
             this.pecas.add(i,this.peca);
             this.pecas.remove(j);
@@ -187,6 +180,7 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
         this.limparIluminados();
         this.pintarTabuleiro();
     }
+    
    
     public void iluminaCaminho(PecaAbstrata pecaEmMovimento){
         String cor = pecaEmMovimento.getCor();

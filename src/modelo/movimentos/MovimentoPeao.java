@@ -4,12 +4,13 @@ import Tabuleiro.TabuleiroXadrez;
 import modelo.pecas.Peao;
 import modelo.pecas.PecaAbstrata;
 import modelo.pecas.PecaVazia;
+import modelo.pecas.PecaXadrez;
 
 public class MovimentoPeao extends MovimentoEstrategicoXadrez {
 
 	@Override
 	public void verificaTrajetoria(PecaAbstrata peao, TabuleiroXadrez tab) {
-		Peao peao2 = (Peao) peao;
+	PecaXadrez peao2 = (PecaXadrez) peao;
 		int temp=0;
         int jogadas=0;
         PecaAbstrata bt=null;
