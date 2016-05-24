@@ -92,8 +92,5 @@ public class TabuleiroXadrez extends TabuleiroAbstrato{
         }
         return flag;
     }
-    
-   
-
-     
+         
 }

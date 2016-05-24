@@ -1,5 +1,5 @@
 package xadrezfinal;
 
 public interface EstadoGame {
-    public void contador();
+    public void contador(GameAbstrato estado);
 }

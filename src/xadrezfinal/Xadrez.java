@@ -8,8 +8,9 @@ public class Xadrez extends GameAbstrato {
     
     
     private static Xadrez instancia;
-    
+    EstadoGame estadocronometro ;
 	private Xadrez() {
+            super(new InProgress());
             frame=getGameInstance("Xadrez");
             play(frame);
 	}
@@ -20,4 +21,9 @@ public class Xadrez extends GameAbstrato {
                 }
 		return instancia;
         }
+        
+        private void jToggleButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {
+            //estadocronometro.contador(this);
+       
+    }
 }

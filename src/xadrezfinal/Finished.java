@@ -1,10 +1,21 @@
 package xadrezfinal;
 
+import javax.swing.Timer;
+
 public class Finished implements EstadoGame{
 
-    @Override
-    public void contador() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   javax.swing.JToggleButton botao;
+    Timer time;
+    FramePrincipal frame;
+    public void contador(GameAbstrato estado) {
+        this.botao = frame.getBotao();
+        this.time = frame.gettimer();
+        botao.setText("Cabou");
+        botao.setEnabled(true);
+        time.stop();
+        frame.setBotao(botao);
+        frame.settimer(time);
+        //acabar
     }
 
 }

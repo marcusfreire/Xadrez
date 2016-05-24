@@ -24,12 +24,18 @@ import static xadrezfinal.FramePrincipal.setJogadorDaVez;
 public class GameAbstrato extends FramePrincipal implements IGame {
     protected FramePrincipal frame;
     FramePrincipal fp;
-    EstadoGame estadocronometro;
+    protected EstadoGame estadocronometro;
+    //protected Xadrez estado = Xadrez.getInstance();
+    
     protected boolean estrategico=false;
     
-    public GameAbstrato(){
+    public GameAbstrato(EstadoGame estadoInicial){
         super();
+       estadocronometro = estadoInicial;
     }
+    public void setEstado(EstadoGame novoEstado){
+		estadocronometro = novoEstado;
+	}
     
     public void setEstrategico (boolean valor){
         this.estrategico=valor;
@@ -55,4 +61,5 @@ public class GameAbstrato extends FramePrincipal implements IGame {
     }
     
     
+        
 }

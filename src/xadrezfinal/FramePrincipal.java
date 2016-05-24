@@ -11,7 +11,10 @@ import Tabuleiro.Jpanel;
 import Tabuleiro.TabuleiroXadrez;
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.Timer;
 import modelo.jogadores.*;
 
 
@@ -28,6 +31,11 @@ public class FramePrincipal extends javax.swing.JFrame {
     protected ArrayList<Jogador> jogadores=new ArrayList<>();
     protected Jogada jogada;
     private boolean estrategico=false;
+    private int currentSegundo = 0;
+    private int currentMinuto = 0;
+    private int currentHora = 0;
+    private int velocidade = 1000;
+    private Timer timer;
     
     /** Creates new form framePrincipal */
     public FramePrincipal() {
@@ -35,6 +43,8 @@ public class FramePrincipal extends javax.swing.JFrame {
         this.jogada=new Jogada();
         adicionaPanelEntrada();
         this.JMenuJogo.setEnabled(false);
+        this.iniciarContagem();
+        stopTime();
         //this.tabuleiro = tab;
         //this.jogada=jog;
         //this.jogadores=jogador;
@@ -51,6 +61,10 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         lblJjogador = new javax.swing.JLabel();
         lbMensagem = new javax.swing.JLabel();
+        jToggleButtonUndo = new javax.swing.JToggleButton();
+        jToggleButtonPause = new javax.swing.JToggleButton();
+        jLabelCont = new javax.swing.JLabel();
+        play = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         JMenuJogo = new javax.swing.JMenu();
         JMenuXadrez = new javax.swing.JMenu();
@@ -70,6 +84,27 @@ public class FramePrincipal extends javax.swing.JFrame {
         lbMensagem.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbMensagem.setForeground(new java.awt.Color(255, 0, 0));
         lbMensagem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jToggleButtonUndo.setText("Undo");
+        jToggleButtonUndo.setEnabled(false);
+
+        jToggleButtonPause.setText("PAUSAR");
+        jToggleButtonPause.setEnabled(false);
+        jToggleButtonPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonPauseActionPerformed(evt);
+            }
+        });
+
+        jLabelCont.setText("00:00:00");
+
+        play.setText("Play");
+        play.setEnabled(false);
+        play.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playActionPerformed(evt);
+            }
+        });
 
         jMenuBar1.setEnabled(false);
 
@@ -124,18 +159,38 @@ public class FramePrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblJjogador, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(lblJjogador, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToggleButtonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(play, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelCont)
+                                .addGap(40, 40, 40)
+                                .addComponent(jToggleButtonUndo)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(289, Short.MAX_VALUE)
+                .addContainerGap(277, Short.MAX_VALUE)
                 .addComponent(lblJjogador, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbMensagem)
-                .addGap(24, 24, 24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbMensagem)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelCont)
+                            .addComponent(jToggleButtonUndo)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jToggleButtonPause)
+                            .addComponent(play))
+                        .addContainerGap())))
         );
 
         pack();
@@ -163,8 +218,20 @@ private void JMenuXadrezBasicoActionPerformed(java.awt.event.ActionEvent evt) {/
         this.lblJjogador.setLocation(new Point(0,410));
         this.lblJjogador.setText(this.lblJjogador.getText()+" "+this.getJogadores().get(0).getNome());
         setJogadorDaVez(0);
-        this.getJogada().setJogador(getJogadores().get(0));
+        this.jToggleButtonUndo.setVisible(true);
+        this.jToggleButtonPause.setVisible(true);
+        this.play.setVisible(true);
+        this.jLabelCont.setVisible(true);
         
+        
+        this.jToggleButtonUndo.setLocation(new Point(300,450));
+        this.jToggleButtonUndo.setEnabled(true);
+        this.jToggleButtonPause.setLocation(new Point(0,450));
+        this.jToggleButtonPause.setEnabled(true);
+        this.play.setLocation(new Point(100,450));
+        this.play.setEnabled(true);
+        this.jLabelCont.setLocation(new Point(200,450));
+        this.timer.restart();
 }//GEN-LAST:event_JMenuXadrezBasicoActionPerformed
 
 private void JMenuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMenuSairActionPerformed
@@ -196,7 +263,34 @@ private void JMenuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         this.lblJjogador.setText(this.lblJjogador.getText()+" "+this.getJogadores().get(0).getNome());
         setJogadorDaVez(0);
         this.getJogada().setJogador(getJogadores().get(0));
+        
+        this.jToggleButtonUndo.setVisible(true);
+        this.jToggleButtonPause.setVisible(true);
+        this.play.setVisible(true);
+        this.jLabelCont.setVisible(true);
+        
+        
+        this.jToggleButtonUndo.setLocation(new Point(300,450));
+        this.jToggleButtonUndo.setEnabled(true);
+        this.jToggleButtonPause.setLocation(new Point(0,450));
+        this.jToggleButtonPause.setEnabled(true);
+        this.play.setLocation(new Point(100,450));
+        this.play.setEnabled(true);
+        this.jLabelCont.setLocation(new Point(200,450));
+        this.timer.restart();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jToggleButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonPauseActionPerformed
+        jToggleButtonPause.setEnabled(true);
+        timer.stop();
+        tabuleiro.desabilitaPecas();
+    }//GEN-LAST:event_jToggleButtonPauseActionPerformed
+
+    private void playActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playActionPerformed
+        play.setEnabled(true);
+        timer.restart();
+        tabuleiro.habilitaPecas();
+    }//GEN-LAST:event_playActionPerformed
 
 private void adicionaPanelEntrada(){
     entrada=new EntradaJogo(this);
@@ -217,6 +311,11 @@ private void adicionaPanelEntrada(){
 
     pack();
     this.lblJjogador.setVisible(false);
+    this.jToggleButtonUndo.setVisible(false);
+    this.jToggleButtonPause.setVisible(false);
+    this.play.setVisible(false);
+    this.jLabelCont.setVisible(false);
+    
 }
 
 public void habilitarMenu(){
@@ -249,12 +348,23 @@ public Jogador getJogador(int indice){
     private javax.swing.JMenu JMenuSobre;
     private javax.swing.JMenu JMenuXadrez;
     private javax.swing.JMenuItem JMenuXadrezBasico;
+    private javax.swing.JLabel jLabelCont;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JToggleButton jToggleButtonPause;
+    private javax.swing.JToggleButton jToggleButtonUndo;
     private javax.swing.JLabel lbMensagem;
     private javax.swing.JLabel lblJjogador;
+    private javax.swing.JToggleButton play;
     // End of variables declaration//GEN-END:variables
 
+    public javax.swing.JToggleButton getBotao() {
+        return jToggleButtonPause;
+    }
+
+    public void setBotao(javax.swing.JToggleButton botao) {
+        this.jToggleButtonPause = botao;
+    }
     public ArrayList<Jogador> getJogadores() {
         return jogadores;
     }
@@ -283,7 +393,48 @@ public Jogador getJogador(int indice){
         this.estrategico=valor;
         }
     public boolean getEstrategico (){    
-      return estrategico;
+        return estrategico;
+       }
+    
+    public void settimer (Timer time2){
+        this.timer=time2;
         }
+    public Timer gettimer (){    
+        return timer;
+       }
+
+    private void iniciarContagem() {
+        ActionListener action = new ActionListener() {  
+            public void actionPerformed(ActionEvent e) {  
+                currentSegundo++;
+                
+                if(currentSegundo==60){
+                    currentMinuto++;
+                    currentSegundo = 0;
+                }
+                
+                if(currentMinuto==60){
+                    currentHora++;
+                    currentMinuto = 0;
+                }
+                
+                String hr = currentHora <= 9? "0"+currentHora:currentHora+"";
+                String min = currentMinuto <= 9? "0"+currentMinuto:currentMinuto+"";
+                String seg = currentSegundo <= 9? "0"+currentSegundo:currentSegundo+"";
+                
+                jLabelCont.setText(hr+":"+min+":"+seg);  
+            }  
+        };  
+        this.timer = new Timer(velocidade, action);  
+        this.timer.start();
+    }
+    
+    private void stopTime() {
+        timer.stop();
+        currentHora = 0;
+        currentMinuto = 0;
+        currentSegundo = 0;
+        jLabelCont.setText("00:00:00");
+    }
 
 }

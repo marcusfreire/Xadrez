@@ -53,7 +53,7 @@ public abstract class PecaAbstrata extends JButton implements Observed {
        int i = observers.indexOf(o);
 		if (i >= 0) {
 			observers.remove(i);
-		} 
+	} 
     }
 
     

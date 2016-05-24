@@ -226,6 +226,11 @@ public abstract class TabuleiroAbstrato extends Jpanel implements Observer {
             this.pecas.get(i).setEnabled(false);
         }
     }
+    public void habilitaPecas(){
+        for(int i=0;i<this.pecas.size();i++){
+            this.pecas.get(i).setEnabled(true);
+        }
+    }
     
     
 }

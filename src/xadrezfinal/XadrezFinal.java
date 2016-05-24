@@ -8,7 +8,7 @@ package xadrezfinal;
 public class XadrezFinal {
     
     public static void main(String[] args) {
-        Xadrez frame;
-        frame = Xadrez.getInstance();   
+        Xadrez xadrez;
+        xadrez = Xadrez.getInstance();   
     }
 }
